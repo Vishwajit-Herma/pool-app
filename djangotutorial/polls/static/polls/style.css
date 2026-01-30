@@ -1,0 +1,157 @@
+/* ===== Reset ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+body {
+    background: #f5f7fa;
+    color: #1f2937;
+    line-height: 1.6;
+}
+
+/* ===== Layout ===== */
+.container {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 24px 16px;
+}
+
+/* ===== Navbar ===== */
+.navbar {
+    background: #1f2937;
+    padding: 14px 0;
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    color: #ffffff;
+    font-size: 22px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+/* ===== Footer ===== */
+.footer {
+    text-align: center;
+    margin: 48px 0 24px;
+    color: #6b7280;
+    font-size: 13px;
+}
+
+/* ===== Cards ===== */
+.card {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 22px;
+    margin-bottom: 18px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+/* ===== Poll list ===== */
+.poll-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.poll-title {
+    font-size: 17px;
+    font-weight: 500;
+}
+
+/* ===== Buttons ===== */
+.btn {
+    padding: 9px 16px;
+    border-radius: 7px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    border: none;
+    transition: background 0.15s ease;
+}
+
+.btn-primary {
+    background: #2563eb;
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background: #1e40af;
+}
+
+.btn-secondary {
+    background: #9ca3af;
+    color: #ffffff;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid #2563eb;
+    color: #2563eb;
+}
+
+.btn-outline:hover {
+    background: #2563eb;
+    color: #ffffff;
+}
+
+/* ===== Forms ===== */
+form {
+    margin-top: 14px;
+}
+
+.form-group {
+    margin-bottom: 14px;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    font-size: 14px;
+}
+
+input:focus {
+    outline: none;
+    border-color: #2563eb;
+}
+
+input[type="radio"] {
+    margin-right: 8px;
+    accent-color: #2563eb;
+}
+
+/* ===== Alerts ===== */
+.alert {
+    background: #fee2e2;
+    color: #991b1b;
+    padding: 10px 12px;
+    border-radius: 6px;
+    margin-bottom: 14px;
+    font-size: 14px;
+}
+
+/* ===== Results ===== */
+.result-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.vote-count {
+    font-weight: 600;
+    color: #2563eb;
+}

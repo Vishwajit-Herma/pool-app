@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Polls App{% endblock %}</title>
+
+    <link rel="stylesheet" href="{% static 'polls/style.css' %}">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="container">
+    <a class="logo" href="{% url 'polls:index' %}">Polls App</a>
+<div>
+  {% if user.is_authenticated %}
+    {% if user.is_staff %}
+      <a href="{% url 'polls:add_question' %}" class="btn btn-outline">
+        Add Question
+      </a>
+    {% endif %}
+
+    <form method="post" action="{% url 'logout' %}" style="display:inline;">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-secondary">
+        Logout
+      </button>
+    </form>
+
+  {% else %}
+    <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
+    <a href="{% url 'register' %}" class="btn btn-outline">Register</a>
+  {% endif %}
+</div>
+
+  </div>
+</header>
+
+
+<main class="container">
+    {% block content %}{% endblock %}
+</main>
+
+<footer class="footer">
+    Built with Django
+</footer>
+
+</body>
+</html>
