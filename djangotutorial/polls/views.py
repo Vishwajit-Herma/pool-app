@@ -16,7 +16,7 @@ from .models import Choice, Question
 def is_admin(user):
     return user.is_staff
 
-
+#
 def home(request):
     return redirect("polls:index")
 
@@ -83,7 +83,7 @@ def vote(request, question_id):
 def add_question(request):
     error_message = None
 
-    if request.method == "POST":
+    if request.method == "POST": #
         question_form = QuestionForm(request.POST)
 
         # Get raw choices
