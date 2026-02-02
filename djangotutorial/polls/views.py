@@ -16,6 +16,11 @@ from .models import Choice, Question
 def is_admin(user):
     return user.is_staff
 
+
+def home(request):
+    return redirect("polls:index")
+
+
 class IndexView(LoginRequiredMixin,generic.ListView):
     template_name = "polls/index.html"
     context_object_name = "latest_question_list"
@@ -41,6 +46,16 @@ class ResultsView(LoginRequiredMixin,generic.DetailView):
 @login_required
 def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
+    if question.choice_set.count() < 2:
+        return render(
+            request,
+            "polls/detail.html",
+            {
+                "question": question,
+                "error_message": "This poll is not valid for voting.",
+            },
+        )
+
     try:
         selected_choice = question.choice_set.get(pk=request.POST["choice"])
     except (KeyError, Choice.DoesNotExist):
@@ -61,24 +76,40 @@ def vote(request, question_id):
         # return redirect("polls:results", question.id)
 
         
-        
+
+
 @login_required
 @user_passes_test(is_admin)
 def add_question(request):
+    error_message = None
+
     if request.method == "POST":
         question_form = QuestionForm(request.POST)
 
-        choices = [
+        # Get raw choices
+        raw_choices = [
             request.POST.get("choice1"),
             request.POST.get("choice2"),
             request.POST.get("choice3"),
         ]
 
-        if question_form.is_valid() and all(choices):
+        # Clean choices: remove empty & whitespace-only values
+        choices = [c.strip() for c in raw_choices if c and c.strip()]
+
+        # ---- VALIDATIONS ----
+        if not question_form.is_valid():
+            error_message = "Please enter a valid question."
+
+        elif len(choices) < 2:
+            error_message = "A question must have at least two choices."
+
+        else:
+            # Save question
             question = question_form.save(commit=False)
             question.pub_date = timezone.now()
             question.save()
 
+            # Save choices
             for choice_text in choices:
                 Choice.objects.create(
                     question=question,
@@ -86,11 +117,13 @@ def add_question(request):
                 )
 
             return redirect("polls:index")
+
     else:
         question_form = QuestionForm()
 
     return render(request, "polls/add_question.html", {
-        "question_form": question_form
+        "question_form": question_form,
+        "error_message": error_message
     })
 
 def register(request):
