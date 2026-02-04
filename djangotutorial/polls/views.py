@@ -46,7 +46,7 @@ class ResultsView(LoginRequiredMixin,generic.DetailView):
 @login_required
 def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
-    if question.choice_set.count() < 2:
+    if question.choice_set.count() < 2:#
         return render(
             request,
             "polls/detail.html",
