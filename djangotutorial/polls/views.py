@@ -127,6 +127,9 @@ def add_question(request):
     })
 
 def register(request):
+    if request.user.is_authenticated:
+        return redirect("polls:index")
+
     if request.method == "POST":
         form = UserCreationForm(request.POST)
         if form.is_valid():
