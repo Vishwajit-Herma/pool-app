@@ -6,8 +6,8 @@ from .models import Choice, Question
 class ChoiceInline(admin.TabularInline):
     model = Choice
     extra = 3
-    min_num = 2 #
-    validate_min = True #
+    min_num = 2  #
+    validate_min = True  #
 
 
 class QuestionAdmin(admin.ModelAdmin):
@@ -19,5 +19,6 @@ class QuestionAdmin(admin.ModelAdmin):
     list_display = ["question_text", "pub_date", "was_published_recently"]
     list_filter = ["pub_date"]
     search_fields = ["question_text"]
+
 
 admin.site.register(Question, QuestionAdmin)

@@ -16,29 +16,31 @@ from .models import Choice, Question
 def is_admin(user):
     return user.is_staff
 
+
 #
 def home(request):
     return redirect("polls:index")
 
 
-class IndexView(LoginRequiredMixin,generic.ListView):
+class IndexView(LoginRequiredMixin, generic.ListView):
     template_name = "polls/index.html"
     context_object_name = "latest_question_list"
 
     def get_queryset(self):
-        return Question.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[
-            :5
-        ]
-    
+        return Question.objects.filter(pub_date__lte=timezone.now()).order_by(
+            "-pub_date"
+        )[:5]
 
-class DetailView(LoginRequiredMixin,generic.DetailView):
+
+class DetailView(LoginRequiredMixin, generic.DetailView):
     model = Question
     template_name = "polls/detail.html"
+
     def get_queryset(self):
         return Question.objects.filter(pub_date__lte=timezone.now())
 
 
-class ResultsView(LoginRequiredMixin,generic.DetailView):
+class ResultsView(LoginRequiredMixin, generic.DetailView):
     model = Question
     template_name = "polls/results.html"
 
@@ -46,7 +48,7 @@ class ResultsView(LoginRequiredMixin,generic.DetailView):
 @login_required
 def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
-    if question.choice_set.count() < 2:#
+    if question.choice_set.count() < 2:  #
         return render(
             request,
             "polls/detail.html",
@@ -70,12 +72,8 @@ def vote(request, question_id):
     else:
         selected_choice.votes = F("votes") + 1
         selected_choice.save()
-        return HttpResponseRedirect(
-            reverse("polls:results", args=(question.id,))
-        )
+        return HttpResponseRedirect(reverse("polls:results", args=(question.id,)))
         # return redirect("polls:results", question.id)
-
-        
 
 
 @login_required
@@ -83,7 +81,7 @@ def vote(request, question_id):
 def add_question(request):
     error_message = None
 
-    if request.method == "POST": #
+    if request.method == "POST":  #
         question_form = QuestionForm(request.POST)
 
         # Get raw choices
@@ -111,20 +109,19 @@ def add_question(request):
 
             # Save choices
             for choice_text in choices:
-                Choice.objects.create(
-                    question=question,
-                    choice_text=choice_text
-                )
+                Choice.objects.create(question=question, choice_text=choice_text)
 
             return redirect("polls:index")
 
     else:
         question_form = QuestionForm()
 
-    return render(request, "polls/add_question.html", {
-        "question_form": question_form,
-        "error_message": error_message
-    })
+    return render(
+        request,
+        "polls/add_question.html",
+        {"question_form": question_form, "error_message": error_message},
+    )
+
 
 def register(request):
     if request.user.is_authenticated:
@@ -134,13 +131,12 @@ def register(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)   
+            login(request, user)
             return redirect("polls:index")
     else:
         form = UserCreationForm()
 
     return render(request, "registration/register.html", {"form": form})
-
 
 
 # from django.views.generic.edit import FormView
@@ -162,7 +158,7 @@ def register(request):
 # from django.views import View
 # from django.contrib.auth.forms import UserCreationForm
 # from django.contrib.auth import login
-# from django.shortcuts import render, redirect   
+# from django.shortcuts import render, redirect
 # class RegisterView(View):
 #     def get(self, request):
 #         form = UserCreationForm()
@@ -175,7 +171,7 @@ def register(request):
 #             login(request, user)
 #             return redirect("polls:index")
 #         return render(request, "registration/register.html", {"form": form})
-    
+
 # # cbv version using CreateView(generic.CreateView)
 # from django.views import generic
 # class RegisterView(generic.CreateView):
@@ -186,5 +182,4 @@ def register(request):
 #     def form_valid(self, form):
 #         response = super().form_valid(form)
 #         login(self.request, self.object)
-#         return 
-   
+#         return
