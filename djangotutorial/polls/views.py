@@ -1,13 +1,13 @@
+from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import F
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
-from django.views import generic
 from django.utils import timezone
-from django.contrib.auth.decorators import login_required, user_passes_test
-from django.contrib.auth import login
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views import generic
 
 from .forms import QuestionForm
 from .models import Choice, Question
@@ -141,17 +141,20 @@ def register(request):
 
 # from django.views.generic.edit import FormView
 # class RegisterView(FormView):
-#     template_name = "registration/register.html"
-#     form_class = UserCreationForm
-#     success_url = "/polls/"
-#     def form_valid(self, form):
-#         user = form.save()
-#         login(self.request, user)
-#         return super().form_valid(form)
-#     def get(self, request, *args, **kwargs):
-#         if self.request.user.is_authenticated:
-#             return redirect("polls:index")
-#         return super().get(request, *args, **kwargs)
+    # template_name = "registration/register.html"
+    # form_class = UserCreationForm
+    # success_url = reverse_lazy("polls:index")
+
+    # def dispatch(self, request, *args, **kwargs):
+    #     if request.user.is_authenticated:
+    #         return redirect("polls:index")
+    #     return super().dispatch(request, *args, **kwargs)
+
+    # def form_valid(self, form):
+    #     user = form.save()
+    #     login(self.request, user)
+    #     return super().form_valid(form)
+
 
 # cbv version of register view
 
