@@ -10,3 +10,5 @@ db.sqlite3
 
 .venv/
 venv/
+
+djangotutorial/data.json
