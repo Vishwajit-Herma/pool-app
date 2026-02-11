@@ -44,7 +44,7 @@ class ResultsView(LoginRequiredMixin, generic.DetailView):
     model = Question
     template_name = "polls/results.html"
 
-
+ 
 @login_required
 def vote(request, question_id):
     #     selected_choice = get_object_or_404(
