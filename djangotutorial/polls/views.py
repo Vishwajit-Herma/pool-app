@@ -47,6 +47,12 @@ class ResultsView(LoginRequiredMixin, generic.DetailView):
 
 @login_required
 def vote(request, question_id):
+    #     selected_choice = get_object_or_404(
+    #     Choice,
+    #     pk=request.POST["choice"],
+    #     question_id=question_id,
+    # )
+
     question = get_object_or_404(Question, pk=question_id)
     if question.choice_set.count() < 2:  #
         return render(
@@ -72,6 +78,7 @@ def vote(request, question_id):
     else:
         selected_choice.votes = F("votes") + 1
         selected_choice.save()
+        # selected_choice.save(update_fields=["votes"])
         return HttpResponseRedirect(reverse("polls:results", args=(question.id,)))
         # return redirect("polls:results", question.id)
 
@@ -141,19 +148,19 @@ def register(request):
 
 # from django.views.generic.edit import FormView
 # class RegisterView(FormView):
-    # template_name = "registration/register.html"
-    # form_class = UserCreationForm
-    # success_url = reverse_lazy("polls:index")
+# template_name = "registration/register.html"
+# form_class = UserCreationForm
+# success_url = reverse_lazy("polls:index")
 
-    # def dispatch(self, request, *args, **kwargs):
-    #     if request.user.is_authenticated:
-    #         return redirect("polls:index")
-    #     return super().dispatch(request, *args, **kwargs)
+# def dispatch(self, request, *args, **kwargs):
+#     if request.user.is_authenticated:
+#         return redirect("polls:index")
+#     return super().dispatch(request, *args, **kwargs)
 
-    # def form_valid(self, form):
-    #     user = form.save()
-    #     login(self.request, user)
-    #     return super().form_valid(form)
+# def form_valid(self, form):
+#     user = form.save()
+#     login(self.request, user)
+#     return super().form_valid(form)
 
 
 # cbv version of register view
